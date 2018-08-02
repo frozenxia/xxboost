@@ -1,6 +1,7 @@
 from regression_tree import *
 import numpy as np
 import pandas as pd
+# from sklearn.tree import DecisionTreeRegressor
 
 def gen_data():
     X = [ x for x in range(10) ]
@@ -27,3 +28,5 @@ print(dt)
             
 tr = build_tree(dt,0,2,compute_loss)
 print(tr.describe())
+for i in range(13):
+    print(tr.predict([1,i]))
