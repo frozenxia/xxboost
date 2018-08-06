@@ -1,8 +1,9 @@
 import numpy as np
 from regression_tree import RegressionTree
+
 class Xgboost(object):
 
-    def __init__ (self,n_estimators = 200,
+    def __init__ (self,n_estimators = 10,
                     learning_rate = 0.01,
                     min_sample_split = 2,
                     min_impurity = 1e-7,
@@ -16,11 +17,14 @@ class Xgboost(object):
 
     def fit(self,X,y):
         y_pred = y
-        for i in self.n_estimators:
+        for i in range(self.n_estimators):
             tree = RegressionTree(self.max_depth,self.min_sample_split,self.min_impurity)
             tree.fit(X,y_pred)
             update_pred = tree.predict(X)
+
+            # print(update_pred[:10])
             y_pred -= np.multiply(self.learning_rate,update_pred)
+            # print(y_pred[:10])
             self.trees.append(tree)
     
     def preedict(self,X):
