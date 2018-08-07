@@ -36,7 +36,8 @@ class RegressionTree(object):
         # xy = np.concatenate((Y,X),axis=1)
         # print(xy[:1])
         self.tree = self.build_tree(X,Y,0,self.max_depth,self.get_loss_function())
-
+    def describe(self):
+        return self.tree.describe()
     def predict(self,X):
         if self.tree == None:
             raise Exception("please fit tree before predict")
@@ -111,12 +112,18 @@ class RegressionTree(object):
                         
                         select_right_set_y = right_split_set_y
                         loss = sum_loss
-                    
-            # update set    
-            tree.split_feature = select_attribute
-            tree.condition_value = select_split_value
-            tree.left_tree = self.build_tree(select_left_set,select_left_set_y,depth+1,max_depth,loss_function)
-            tree.right_tree = self.build_tree(select_right_set,select_right_set_y,depth+1,max_depth,loss_function)
+
+            if len(select_left_set) == 0 or len(select_right_set) == 0 :
+                tree_node = TreeNode()
+                sum1 = np.sum(y_sets,axis=0)
+                tree_node.update_predict_value(sum1/len(y_sets))
+                tree.tree_node = tree_node
+            else:
+                # update set    
+                tree.split_feature = select_attribute
+                tree.condition_value = select_split_value
+                tree.left_tree = self.build_tree(select_left_set,select_left_set_y,depth+1,max_depth,loss_function)
+                tree.right_tree = self.build_tree(select_right_set,select_right_set_y,depth+1,max_depth,loss_function)
         return tree
 
 class TreeNode(object):

@@ -3,7 +3,7 @@ from regression_tree import RegressionTree
 
 class Xgboost(object):
 
-    def __init__ (self,n_estimators = 10,
+    def __init__ (self,n_estimators = 30,
                     learning_rate = 0.01,
                     min_sample_split = 2,
                     min_impurity = 1e-7,
@@ -27,15 +27,16 @@ class Xgboost(object):
             # print(y_pred[:10])
             self.trees.append(tree)
     
-    def preedict(self,X):
+    def predict(self,X):
         y_pred = None
         for tree in self.trees:
             update_pred = tree.predict(X)
             if y_pred is None:
-                y_pred = np.zeros_like(update_pred)
-            y_pred += np.multiply(self.learning_rate,update_pred)
+                y_pred = update_pred
+            else:
+                y_pred += np.multiply(self.learning_rate,update_pred)
         ## softmax
-        y_pred  = np.exp(y_pred)/np.sum(np.exp(y_pred),axis=1,keepdims=True)
-        y_pred = np.argmax(y_pred,axis=1)
+        # y_pred  = np.exp(y_pred)/np.sum(np.exp(y_pred),axis=1,keepdims=True)
+        # y_pred = np.argmax(y_pred,axis=1)
         return y_pred
         
