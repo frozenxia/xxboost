@@ -2,7 +2,8 @@ import numpy as np
 from sklearn.tree import DecisionTreeRegressor
 import matplotlib.pyplot as plt
 from xgboost_model import Xgboost
-
+import xgboost 
+  
 
 from regression_tree import RegressionTree
 
@@ -33,13 +34,20 @@ y_2 = regr_2.predict(X_test)
 
 
 def predict_xgboost(nestimator):
-    regr_3 =  Xgboost(n_estimators=nestimator)
+    regr_3 =  Xgboost(n_estimators=nestimator,max_depth=5)
     y_3= [[y0] for y0 in y]
     regr_3.fit(X,y_3)
     y_31 = regr_3.predict(X_test)
     y_31 = [y0[0] for y0 in y_31]
     return y_31
 # print(y_31)
+
+
+def xg_predict():
+    xgb = xgboost.XGBRegressor(n_estimators=100, learning_rate=0.08, gamma=0, subsample=0.75,
+                           colsample_bytree=1, max_depth=7)
+    xgb.fit(X,y)
+    return xgb.predict(X_test)
 
 
 
@@ -50,11 +58,15 @@ plt.scatter(X, y, s=20, edgecolor="black",
             c="darkorange", label="data")
 # plt.plot(X_test, y_1, color="cornflowerblue",
 #          label="max_depth=2", linewidth=2)
-plt.plot(X_test, y_2, color="yellowgreen", label="max_depth=5", linewidth=2)
+# plt.plot(X_test, y_2, color="yellowgreen", label="max_depth=5", linewidth=2)
 # print(regr_1.)
-plt.plot(X_test, predict_xgboost(10), color="green", label="max_depth=5", linewidth=2)
+# plt.plot(X_test, predict_xgboost(10), color="green", label="max_depth=5", linewidth=2)
 
-plt.plot(X_test, predict_xgboost(40), color="red", label="max_depth=5", linewidth=2)
+plt.plot(X_test, predict_xgboost(200), color="red", label="max_depth=5", linewidth=2)
+
+plt.plot(X_test, xg_predict(), color="yellow", label="max_depth=5", linewidth=2)
+
+# plt.plot(X_test, predict_xgboost(200), color="purple", label="max_depth=5", linewidth=2)
 plt.xlabel("data")
 plt.ylabel("target")
 plt.title("Decision Tree Regression")

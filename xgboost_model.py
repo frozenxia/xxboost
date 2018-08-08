@@ -4,7 +4,7 @@ from regression_tree import RegressionTree
 class Xgboost(object):
 
     def __init__ (self,n_estimators = 30,
-                    learning_rate = 0.01,
+                    learning_rate = 0.1,
                     min_sample_split = 2,
                     min_impurity = 1e-7,
                     max_depth = 2):
@@ -32,7 +32,7 @@ class Xgboost(object):
         for tree in self.trees:
             update_pred = tree.predict(X)
             if y_pred is None:
-                y_pred = update_pred
+                y_pred = np.multiply(self.learning_rate,update_pred)
             else:
                 y_pred += np.multiply(self.learning_rate,update_pred)
         ## softmax
