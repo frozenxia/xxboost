@@ -11,7 +11,6 @@ class Matrix{
         vector<vector<double>> elements;
         vector<string> column_labels;
         vector<string> row_labels;
-
     public:
         Matrix();
         void load(string filename,bool use_column_labels=true,bool use_row_labels=true);

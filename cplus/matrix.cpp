@@ -43,6 +43,8 @@ void Matrix::load(string filename,string &delimiter = string("\t"), bool use_col
         line_number ++;
     }
 }
+
+
 void Matrix::save(string filename){
     
 }
