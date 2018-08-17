@@ -46,9 +46,7 @@ int_t DataSet<d_t,i_t,v_t>::read_nextBatch(istream& is_x ,istream &is_y,
             if (_dim_sparse != parser.ps[i].feats_sparse.size() ){
                 throw MyDataInputException("number of dense feature is " +  to_string(parser.ps[i].feats_sparse.size()) +
                     "but should be " + to_string(_dim_sparse) ,i+1);
-            } 
-    
-
+            }
             _nrows ++;
 
             int j;
@@ -103,6 +101,24 @@ size_t DataSet<d_t,i_t,v_t>::append(DataSet::IOParam &param){
 
     int_t nlines = 0;
 
+    int nl = 0;
+    int begin_ = is_sorted() ? size() : 0;
+    while(true){
+        try{
+            nl = read_nextBatch(is_x,is_y,is_w,y_valid,w_valid,param.xfile_format.value,batch_size,nthreads);
+        }catch (MyDataInputException &e){
+            cerr << "error at reading file at line "  << (nlines + e.line_no) << endl;
+            break;
+        }
+        if (nl == 0){
+            break;
+        }
+        nlines += nl;
+    }
+    int end_ = size();
 
-
+    for( int i = begin_; i < end_;i ++){
+        (*this)[i].sort();
+    }
+    return nlines;
 }

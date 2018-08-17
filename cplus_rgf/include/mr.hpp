@@ -145,13 +145,13 @@ class MyDataInputLineParseResult{
             for (step = 0; token_str[step] != 0 && token_str[step] != ':'; step ++);
 
             if (token_str[step] == 0){
-                throw MyDataInputException(': not in the format of index:value',lno);
+                throw MyDataInputException(": not in the format of index:value",lno);
             }
             token_str[step] = 0;
             long tmp = atol(token_str);
 
             if (tmp >= numeric_limits<i_t>::max() || tmp < numeric_limits<i_t>::max() ){
-                throw MyDataInputException('index out of range',lno);
+                throw MyDataInputException("index out of range",lno);
             }
             result.index = tmp;
 
@@ -164,7 +164,7 @@ class MyDataInputLineParseResult{
             }else{
                 long tmp = atol(token_str + (step+1));
                 if (tmp >= numeric_limits<v_t>::max() || tmp <= numeric_limits<v_t>::lowest()){
-                    throw MyDataInputException(': value out of range',lno);
+                    throw MyDataInputException(": value out of range",lno);
                 }
                 result.value = tmp;
             }
@@ -194,7 +194,7 @@ class MyDataInputLineParseResult{
                     SparseFeatureElement<i_t,v_t> result;
                     if (sparse_format){
                         char_arr.resize(token.size()+1);
-                        memccpy(char_arr.data(),token.c_str(),token.size()+1);
+                        memcpy(char_arr.data(),token.c_str(),token.size()+1);
                         char *token_str = char_arr.data();
                         parse_sparse_element(token_str,result,lno);
                         sparse_elem_vec.push_back(result);
@@ -204,7 +204,7 @@ class MyDataInputLineParseResult{
                     sparse_elem_vec.clear();
                     char_arr.resize(token.size()+1);
                     memcpy(char_arr.data(),token.c_str(),token.size()+1);
-                    char *token = char_arr.data();
+                    char *token_str = char_arr.data();
 
                     size_t pos ;
                     bool is_end = false;

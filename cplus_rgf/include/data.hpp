@@ -34,7 +34,7 @@ public:
 
   bool is_sorted()
   {
-    for (j = 0; j < dim_sparse; j++)
+    for (int j = 0; j < dim_sparse; j++)
     {
       for (int k = 1; k < x_sparse[j].size(); k++)
       {
@@ -160,7 +160,7 @@ public:
 
   bool is_sorted(){return sorted;}
   DataPoint<d_t,i_t,v_t> operator[](const size_t i){
-    return DataPoint(_dim_dense,x_dense[i],_dim_sparse,x_sparse[i]);
+    return DataPoint<d_t,i_t,v_t>(_dim_dense,x_dense[i],_dim_sparse,x_sparse[i]);
   }
 
   void set_dims(int dense,int sparse){
@@ -204,7 +204,7 @@ public:
     append(param);
   }
 
-  void write(IOParam & param,int nthreads = 0);
+  void write(IOParam & param,int nthreads = 0){}
 
   void clear();
 
@@ -214,6 +214,15 @@ public:
 
 };
 
-} // namespace rgf
+//#define DISC_TYPE_T disc_
 
+using DataPointFlt = DataPoint<float,src_index_t ,float >;
+using DataPointInt = DataPoint<int,int ,int>;
+//using DataPointShort = DataPoint<D
+
+using DataSetFlt = DataSet<float,src_index_t ,float >;
+using DataSetInt = DataSet<int,int,int>;
+
+
+} // namespace rgf
 #endif
