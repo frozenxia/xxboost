@@ -1,143 +1,164 @@
 #ifndef _RGF_UTILS_H
 #define _RGF_UTILS_H
+
 #include "header.hpp"
 
-template <typename T>
-class UniqueArray
-{
+template<typename T>
+class UniqueArray {
     UniqueArray(const UniqueArray &) = delete;
+
     UniqueArray &operator=(const UniqueArray &) = delete;
+
     size_t _num;
     unique_ptr<T[]> _data;
 
-  public:
+public:
     UniqueArray() : _num(0), _data(nullptr) {}
 
-    UniqueArray(size_t n):_num(0),_data(nullptr){
+    UniqueArray(size_t n) : _num(0), _data(nullptr) {
         reset(n);
     }
-    //&& rvalue reference, just like & 
+
+    //&& rvalue reference, just like &
     // =default means use system generate function
-    UniqueArray(UniqueArray&&)=default; 
-    UniqueArray & operator = (UniqueArray &&) = default;
+    UniqueArray(UniqueArray &&) = default;
 
-    size_t size(){return _num;}
+    UniqueArray &operator=(UniqueArray &&) = default;
 
-    T* get(){return _data.get();}
+    size_t size() { return _num; }
 
-    T* begin(){
+    T *get() { return _data.get(); }
+
+    T *begin() {
         return get();
     }
 
-    T* end(){
+    T *end() {
         return get() + size();
     }
-    void reset(size_t n){
+
+    void reset(size_t n) {
         _num = n;
-        if (n < 0){
+        if (n < 0) {
             _data.reset(nullptr);
-        }
-        else{
+        } else {
             _data.reset(new T[n]);
         }
     }
 
-    void resize(size_t n){
-        if (n <= _num){
+    void resize(size_t n) {
+        if (n <= _num) {
             _num = n;
-            return ;
+            return;
         }
 
-        T * ptr = new T[n];
+        T *ptr = new T[n];
 
-        memcpy(ptr,get(),sizeof(T)*_num);
+        memcpy(ptr, get(), sizeof(T) * _num);
         _num = n;
         _data.reset(ptr);
     }
 
-    void clear(){
+    void clear() {
         _num = 0;
         _data.reset(nullptr);
     }
 
-    T & operator [] (size_t i) {return _data[i];}
+    T &operator[](size_t i) { return _data[i]; }
 };
 
 
-class ParameterParser{
+class ParameterParser {
+public:
+    class ParamValueBase {
     public:
-        class ParamValueBase{
-            public:
-                string default_value;
-                string description;
-                string parsed_value;
-                bool is_valid;
-                virtual void set_value()=0;
-        };
-    
-    private:
-        static string to_string(string str){return str;}
-        static string to_string(bool value){return value? "true":"false";}
+        string default_value;
+        string description;
+        string parsed_value;
+        bool is_valid;
 
-        template<typename T> static string to_string(T value){return std::to_string(value);}
+        virtual void set_value() = 0;
+    };
 
-        vector<pair<string,ParamValueBase* > > _kv_table;
+private:
+    static string to_string(string str) { return str; }
 
-        string _description;
+    static string to_string(bool value) { return value ? "true" : "false"; }
 
+    template<typename T>
+    static string to_string(T value) { return std::to_string(value); }
+
+    vector<pair<string, ParamValueBase *> > _kv_table;
+
+    string _description;
+
+public:
+    template<typename T>
+    class ParamValue : public ParamValueBase {
     public:
-        template<typename T> 
-            class ParamValue: public ParamValueBase{
-                public:
-                    T value;
-                    T default_value_T;
-                    ParamValue(){}
+        T value;
+        T default_value_T;
 
-                    void insert(string key,T _default,string description,ParameterParser *pp,bool is_valid=true){
-                        value = default_value_T = _default;
-                        default_value = to_string(_default);
-                        parsed_value = default_value;
-                        description = description;
-                        pp->init_insert(key,this);
-                    }
+        ParamValue() {}
 
-                    virtual void set_value(){
-                        if (parsed_value != ""){
-                            stringstream convert(parsed_value);
-                            convert >> value;
-                        }else{
-                            value = default_value_T;
-                        }
-                        is_valid=true;
-                    }
-
-                    void set_value(T v){
-                        value = v;
-                        parsed_value = to_string(v);
-                        is_valid = true;
-                    }
-            };
-
-        
-        void init_insert(string key,ParamValueBase *value){
-            _kv_table.push_back(pair<string,ParamValueBase*>(key,value));
+        void insert(string key, T _default, string description, ParameterParser *pp, bool is_valid = true) {
+            value = default_value_T = _default;
+            default_value = to_string(_default);
+            parsed_value = default_value;
+            description = description;
+            pp->init_insert(key, this);
         }
 
-        bool parse_and_assign(string token);
-
-        void print_parameters(ostream & os ,string indent= "  ");
-
-        void print_options(ostream & os, string indent = "  ");
-
-        void set_description(string desc){
-            _description =  desc;
+        virtual void set_value() {
+            if (parsed_value != "") {
+                stringstream convert(parsed_value);
+                convert >> value;
+            } else {
+                value = default_value_T;
+            }
+            is_valid = true;
         }
 
-        void clear(){
-            _kv_table.clear();
+        void set_value(T v) {
+            value = v;
+            parsed_value = to_string(v);
+            is_valid = true;
         }
+    };
+
+
+    void init_insert(string key, ParamValueBase *value) {
+        _kv_table.push_back(pair<string, ParamValueBase *>(key, value));
+    }
+
+    bool parse_and_assign(string token);
+
+    void print_parameters(ostream &os, string indent = "  ");
+
+    void print_options(ostream &os, string indent = "  ");
+
+    void set_description(string desc) {
+        _description = desc;
+    }
+
+    void clear() {
+        _kv_table.clear();
+    }
 };
 
+
+class ParameterParserGroup {
+    vector<ParameterParser *> pp_vec;
+public:
+    vector<string> unparsed_tokens;
+    void command_line_parse(int_t argc,char *argv[]);
+    void config_file_parse(string filename);
+    void add_parser(ParameterParser *pp){
+        pp_vec.push_back(pp);
+    }
+    int_t  parse(string token);
+    void print_options(ostream& os,string indent = "  ",int_t line_skip = 2);
+};
 
 
 #endif
