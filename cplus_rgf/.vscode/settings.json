@@ -16,6 +16,7 @@
         "ostream": "cpp",
         "ratio": "cpp",
         "type_traits": "cpp",
-        "thread": "cpp"
+        "thread": "cpp",
+        "limits": "cpp"
     }
 }

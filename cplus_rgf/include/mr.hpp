@@ -142,6 +142,33 @@ class MyDataInputLineParseResult{
 
         static void parse_sparse_element(char* token_str,SparseFeatureElement<i_t,v_t> &result,int lno){
             size_t step = 0;
+            for (step = 0; token_str[step] != 0 && token_str[step] != ':'; step ++);
+
+            if (token_str[step] == 0){
+                throw MyDataInputException(': not in the format of index:value',lno);
+            }
+            token_str[step] = 0;
+            long tmp = atol(token_str);
+
+            if (tmp >= numeric_limits<i_t>::max() || tmp < numeric_limits<i_t>::max() ){
+                throw MyDataInputException('index out of range',lno);
+            }
+            result.index = tmp;
+
+            if (is_same<v_t,float>::value ||is_same<v_t,double>::value){
+                double tmp = atof(token_str + (step+1));
+                if (tmp >= numeric_limits<v_t>::max()) tmp = numeric_limits<v_t>::max();
+                if (tmp <= numeric_limits<v_t>::lowest()) tmp = numeric_limits<v_t>::lowest();
+                if (!(tmp == tmp)) tmp = numeric_limits<v_t>::lowest();
+                result.value = (float)tmp;
+            }else{
+                long tmp = atol(token_str + (step+1));
+                if (tmp >= numeric_limits<v_t>::max() || tmp <= numeric_limits<v_t>::lowest()){
+                    throw MyDataInputException(': value out of range',lno);
+                }
+                result.value = tmp;
+            }
+            return;
         }
 
         void parse_x(bool sparse_format,int lno){
