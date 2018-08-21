@@ -36,7 +36,14 @@ int_t DataSet<d_t,i_t,v_t>::read_nextBatch(istream& is_x ,istream &is_y,
 
         int i ;
         for (i = 0;i < nl;i ++){
-            if (_dim_dense < 0) _dim_dense = parser.ps[i].feats_dense.size();
+            if (_dim_dense < 0) {
+                _dim_dense = parser.ps[i].feats_dense.size();
+//                cout << "+dd" << endl;
+//                cout << _dim_dense << endl;
+//                cout << "dim_dense" << endl << parser.ps[i].feats_sparse[i].size()<< endl;
+//                cout << parser.ps[i].feats_dense[0] << endl;
+            }
+
             if (_dim_dense != parser.ps[i].feats_dense.size() ){
                 throw MyDataInputException("number of dense feature is " +  to_string(parser.ps[i].feats_dense.size()) +
                     "but should be " + to_string(_dim_dense) ,i+1);
@@ -75,27 +82,27 @@ int_t DataSet<d_t,i_t,v_t>::read_nextBatch(istream& is_x ,istream &is_y,
 
 template<typename d_t,typename i_t,typename v_t>
 size_t DataSet<d_t,i_t,v_t>::append(DataSet::IOParam &param){
-    ifstream is_x(param.fn_x.value());
-    ifstream is_y(param.fn_y.value());
-    ifstream is_w(param.fn_w.value());
+    ifstream is_x(param.fn_x.value);
+    ifstream is_y(param.fn_y.value);
+    ifstream is_w(param.fn_w.value);
 
-    bool w_valid = (param.fn_w.value().size() > 0);
-    bool y_valid = (param.fn_y.value().size() > 0);
+    bool w_valid = (param.fn_w.value.size() > 0);
+    bool y_valid = (param.fn_y.value.size() > 0);
 
     if( ! is_x.good()){
-        cerr << "cannot open feature file <"  << param.fn_x.value() << " >" << endl;
+        cerr << "cannot open feature file <"  << param.fn_x.value << " >" << endl;
         return 0;
     }
     if( w_valid && ! is_w.good()){
-        cerr << "cannot open weight file <"  << param.fn_w.value() << " >" << endl;
+        cerr << "cannot open weight file <"  << param.fn_w.value << " >" << endl;
         return 0;
     }
     if( y_valid  && ! is_y.good()){
-        cerr << "cannot open label file <"  << param.fn_y.value() << " >" << endl;
+        cerr << "cannot open label file <"  << param.fn_y.value << " >" << endl;
         return 0;
     }
 
-    y_type = Target(param.y_type.value());
+    y_type = Target(param.y_type.value);
     int batch_size = 1000;
     int nthreads = param.nthreads.value;
 
@@ -107,7 +114,7 @@ size_t DataSet<d_t,i_t,v_t>::append(DataSet::IOParam &param){
         try{
             nl = read_nextBatch(is_x,is_y,is_w,y_valid,w_valid,param.xfile_format.value,batch_size,nthreads);
         }catch (MyDataInputException &e){
-            cerr << "error at reading file at line "  << (nlines + e.line_no) << endl;
+            cerr << "error at reading file at line "  << (nlines + e.line_no) << " , " << e.error_message << endl;
             break;
         }
         if (nl == 0){
@@ -115,10 +122,17 @@ size_t DataSet<d_t,i_t,v_t>::append(DataSet::IOParam &param){
         }
         nlines += nl;
     }
+    cout << nlines << endl;
     int end_ = size();
 
     for( int i = begin_; i < end_;i ++){
         (*this)[i].sort();
     }
     return nlines;
+}
+
+namespace rgf {
+    template class DataSet<float,src_index_t,float>;
+    template class DataSet<int,int,int>;
+//    template class DataSet<DISC_TYPE_T>;
 }

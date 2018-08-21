@@ -48,6 +48,7 @@ class MapReduceRunner{
 
         template<typename T> void single_thread_map_reduce(T &mr,int begin,int end,int tid,int nthreads,bool run_range){
             int j ;
+            cout << "run single thead map reduce" << endl;
             if (run_range){
                 int block_size = 1 + (int)((end-1-begin)/nthreads);
                 int my_begin = begin + tid * block_size;
@@ -149,8 +150,8 @@ class MyDataInputLineParseResult{
             }
             token_str[step] = 0;
             long tmp = atol(token_str);
-
-            if (tmp >= numeric_limits<i_t>::max() || tmp < numeric_limits<i_t>::max() ){
+//            cout << tmp << "tmp " << endl;
+            if (tmp >= numeric_limits<i_t>::max() || tmp < numeric_limits<i_t>::lowest() ){
                 throw MyDataInputException("index out of range",lno);
             }
             result.index = tmp;
@@ -236,9 +237,11 @@ class MyDataInputLineParseResult{
             }while(0!= *str++);
 
             if (sparse_format){
+
                 SparseFeatureGroup<i_t,v_t> tmp(sparse_elem_vec.size());
                 for (size_t ii = 0;ii < tmp.size(); ii ++){
                    tmp[ii]  = sparse_elem_vec[ii];
+//                   cout << tmp[ii].value << endl;
                 }
                 feats_sparse.push_back(std::move(tmp));
             }
@@ -346,8 +349,10 @@ class MyDataInputLineParserMR: public MapReduce{
         void map(int tid,int j){
             int jj ;
             while (read_line(jj)){
+//                cout <<
                 ps[jj].parse_x(sparse_format,jj);
             }
+            cout << jj << endl;
         }
 };
 

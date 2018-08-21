@@ -1,4 +1,4 @@
-# Install script for directory: /home/mi/github/github/myown/xxgBoost/cplus_rgf/src/base
+# Install script for directory: /home/mu/git/github/myown/xxgBoost/cplus_rgf/src/base
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

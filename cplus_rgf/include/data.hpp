@@ -89,6 +89,27 @@ public:
   inline bool binary_label(double y){
     return abs(y-_current_label) < 1e-5;
   }
+  Target():_num_classes(-1),_current_label(-1),type(NUL){}
+
+  Target(string str){
+      type = NUL;
+      _num_classes = -1;
+      _current_label = -1;
+
+      if (str.compare("REAL")==0){
+          type = REAL;
+      }
+      if (str.compare("BINARY")){
+          type = BINARY;
+          _num_classes = 2;
+          _current_label = 1;
+      }
+      if (str.compare("MULTICLASS")){
+          type = MULTICLASS;
+          _num_classes = -1;
+          _current_label = 0;
+      }
+  }
 
 };
 

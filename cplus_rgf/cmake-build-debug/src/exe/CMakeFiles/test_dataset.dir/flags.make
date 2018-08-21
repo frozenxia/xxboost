@@ -6,5 +6,5 @@ CXX_FLAGS = -O3 -std=c++11 -pthread -ftree-vectorize -ffast-math -g
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/mi/github/github/myown/xxgBoost/cplus_rgf/include 
+CXX_INCLUDES = -I/home/mu/git/github/myown/xxgBoost/cplus_rgf/include 
 

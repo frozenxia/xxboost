@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/mi/github/github/myown/xxgBoost/cplus_rgf/src/exe/test_dataset.cpp" "/home/mi/github/github/myown/xxgBoost/cplus_rgf/cmake-build-debug/src/exe/CMakeFiles/test_dataset.dir/test_dataset.cpp.o"
+  "/home/mu/git/github/myown/xxgBoost/cplus_rgf/src/exe/test_dataset.cpp" "/home/mu/git/github/myown/xxgBoost/cplus_rgf/cmake-build-debug/src/exe/CMakeFiles/test_dataset.dir/test_dataset.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -15,7 +15,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/mi/github/github/myown/xxgBoost/cplus_rgf/cmake-build-debug/src/base/CMakeFiles/base.dir/DependInfo.cmake"
+  "/home/mu/git/github/myown/xxgBoost/cplus_rgf/cmake-build-debug/src/base/CMakeFiles/base.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

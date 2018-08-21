@@ -4,8 +4,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/mi/github/github/myown/xxgBoost/cplus_rgf/src/base/data.cpp" "/home/mi/github/github/myown/xxgBoost/cplus_rgf/src/base/CMakeFiles/base.dir/data.cpp.o"
-  "/home/mi/github/github/myown/xxgBoost/cplus_rgf/src/base/utils.cpp" "/home/mi/github/github/myown/xxgBoost/cplus_rgf/src/base/CMakeFiles/base.dir/utils.cpp.o"
+  "/home/mu/git/github/myown/xxgBoost/cplus_rgf/src/base/data.cpp" "/home/mu/git/github/myown/xxgBoost/cplus_rgf/src/base/CMakeFiles/base.dir/data.cpp.o"
+  "/home/mu/git/github/myown/xxgBoost/cplus_rgf/src/base/utils.cpp" "/home/mu/git/github/myown/xxgBoost/cplus_rgf/src/base/CMakeFiles/base.dir/utils.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

@@ -39,19 +39,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/mi/software/clion-2018.2.1/bin/cmake/linux/bin/cmake
+CMAKE_COMMAND = /home/mu/Software/clion/clion-2018.2.1/bin/cmake/linux/bin/cmake
 
 # The command to remove a file.
-RM = /home/mi/software/clion-2018.2.1/bin/cmake/linux/bin/cmake -E remove -f
+RM = /home/mu/Software/clion/clion-2018.2.1/bin/cmake/linux/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/mi/github/github/myown/xxgBoost/cplus_rgf
+CMAKE_SOURCE_DIR = /home/mu/git/github/myown/xxgBoost/cplus_rgf
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/mi/github/github/myown/xxgBoost/cplus_rgf/cmake-build-debug
+CMAKE_BINARY_DIR = /home/mu/git/github/myown/xxgBoost/cplus_rgf/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -59,31 +59,31 @@ CMAKE_BINARY_DIR = /home/mi/github/github/myown/xxgBoost/cplus_rgf/cmake-build-d
 # Special rule for the target install/strip
 install/strip: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/home/mi/software/clion-2018.2.1/bin/cmake/linux/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+	/home/mu/Software/clion/clion-2018.2.1/bin/cmake/linux/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
 .PHONY : install/strip
 
 # Special rule for the target install/strip
 install/strip/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/home/mi/software/clion-2018.2.1/bin/cmake/linux/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+	/home/mu/Software/clion/clion-2018.2.1/bin/cmake/linux/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
 .PHONY : install/strip/fast
 
 # Special rule for the target install/local
 install/local: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/home/mi/software/clion-2018.2.1/bin/cmake/linux/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+	/home/mu/Software/clion/clion-2018.2.1/bin/cmake/linux/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
 .PHONY : install/local
 
 # Special rule for the target install/local
 install/local/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/home/mi/software/clion-2018.2.1/bin/cmake/linux/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+	/home/mu/Software/clion/clion-2018.2.1/bin/cmake/linux/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
 .PHONY : install/local/fast
 
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/home/mi/software/clion-2018.2.1/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	/home/mu/Software/clion/clion-2018.2.1/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -94,7 +94,7 @@ edit_cache/fast: edit_cache
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/home/mi/software/clion-2018.2.1/bin/cmake/linux/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/home/mu/Software/clion/clion-2018.2.1/bin/cmake/linux/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -105,13 +105,13 @@ rebuild_cache/fast: rebuild_cache
 # Special rule for the target install
 install: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/home/mi/software/clion-2018.2.1/bin/cmake/linux/bin/cmake -P cmake_install.cmake
+	/home/mu/Software/clion/clion-2018.2.1/bin/cmake/linux/bin/cmake -P cmake_install.cmake
 .PHONY : install
 
 # Special rule for the target install
 install/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/home/mi/software/clion-2018.2.1/bin/cmake/linux/bin/cmake -P cmake_install.cmake
+	/home/mu/Software/clion/clion-2018.2.1/bin/cmake/linux/bin/cmake -P cmake_install.cmake
 .PHONY : install/fast
 
 # Special rule for the target list_install_components
@@ -126,14 +126,14 @@ list_install_components/fast: list_install_components
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/mi/github/github/myown/xxgBoost/cplus_rgf/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_progress_start /home/mi/github/github/myown/xxgBoost/cplus_rgf/cmake-build-debug/CMakeFiles /home/mi/github/github/myown/xxgBoost/cplus_rgf/cmake-build-debug/src/exe/CMakeFiles/progress.marks
-	cd /home/mi/github/github/myown/xxgBoost/cplus_rgf/cmake-build-debug && $(MAKE) -f CMakeFiles/Makefile2 src/exe/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mi/github/github/myown/xxgBoost/cplus_rgf/cmake-build-debug/CMakeFiles 0
+	cd /home/mu/git/github/myown/xxgBoost/cplus_rgf/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_progress_start /home/mu/git/github/myown/xxgBoost/cplus_rgf/cmake-build-debug/CMakeFiles /home/mu/git/github/myown/xxgBoost/cplus_rgf/cmake-build-debug/src/exe/CMakeFiles/progress.marks
+	cd /home/mu/git/github/myown/xxgBoost/cplus_rgf/cmake-build-debug && $(MAKE) -f CMakeFiles/Makefile2 src/exe/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mu/git/github/myown/xxgBoost/cplus_rgf/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/mi/github/github/myown/xxgBoost/cplus_rgf/cmake-build-debug && $(MAKE) -f CMakeFiles/Makefile2 src/exe/clean
+	cd /home/mu/git/github/myown/xxgBoost/cplus_rgf/cmake-build-debug && $(MAKE) -f CMakeFiles/Makefile2 src/exe/clean
 .PHONY : clean
 
 # The main clean target
@@ -143,22 +143,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/mi/github/github/myown/xxgBoost/cplus_rgf/cmake-build-debug && $(MAKE) -f CMakeFiles/Makefile2 src/exe/preinstall
+	cd /home/mu/git/github/myown/xxgBoost/cplus_rgf/cmake-build-debug && $(MAKE) -f CMakeFiles/Makefile2 src/exe/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/mi/github/github/myown/xxgBoost/cplus_rgf/cmake-build-debug && $(MAKE) -f CMakeFiles/Makefile2 src/exe/preinstall
+	cd /home/mu/git/github/myown/xxgBoost/cplus_rgf/cmake-build-debug && $(MAKE) -f CMakeFiles/Makefile2 src/exe/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/mi/github/github/myown/xxgBoost/cplus_rgf/cmake-build-debug && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/mu/git/github/myown/xxgBoost/cplus_rgf/cmake-build-debug && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 src/exe/CMakeFiles/test_dataset.dir/rule:
-	cd /home/mi/github/github/myown/xxgBoost/cplus_rgf/cmake-build-debug && $(MAKE) -f CMakeFiles/Makefile2 src/exe/CMakeFiles/test_dataset.dir/rule
+	cd /home/mu/git/github/myown/xxgBoost/cplus_rgf/cmake-build-debug && $(MAKE) -f CMakeFiles/Makefile2 src/exe/CMakeFiles/test_dataset.dir/rule
 .PHONY : src/exe/CMakeFiles/test_dataset.dir/rule
 
 # Convenience name for target.
@@ -168,7 +168,7 @@ test_dataset: src/exe/CMakeFiles/test_dataset.dir/rule
 
 # fast build rule for target.
 test_dataset/fast:
-	cd /home/mi/github/github/myown/xxgBoost/cplus_rgf/cmake-build-debug && $(MAKE) -f src/exe/CMakeFiles/test_dataset.dir/build.make src/exe/CMakeFiles/test_dataset.dir/build
+	cd /home/mu/git/github/myown/xxgBoost/cplus_rgf/cmake-build-debug && $(MAKE) -f src/exe/CMakeFiles/test_dataset.dir/build.make src/exe/CMakeFiles/test_dataset.dir/build
 .PHONY : test_dataset/fast
 
 test_dataset.o: test_dataset.cpp.o
@@ -177,7 +177,7 @@ test_dataset.o: test_dataset.cpp.o
 
 # target to build an object file
 test_dataset.cpp.o:
-	cd /home/mi/github/github/myown/xxgBoost/cplus_rgf/cmake-build-debug && $(MAKE) -f src/exe/CMakeFiles/test_dataset.dir/build.make src/exe/CMakeFiles/test_dataset.dir/test_dataset.cpp.o
+	cd /home/mu/git/github/myown/xxgBoost/cplus_rgf/cmake-build-debug && $(MAKE) -f src/exe/CMakeFiles/test_dataset.dir/build.make src/exe/CMakeFiles/test_dataset.dir/test_dataset.cpp.o
 .PHONY : test_dataset.cpp.o
 
 test_dataset.i: test_dataset.cpp.i
@@ -186,7 +186,7 @@ test_dataset.i: test_dataset.cpp.i
 
 # target to preprocess a source file
 test_dataset.cpp.i:
-	cd /home/mi/github/github/myown/xxgBoost/cplus_rgf/cmake-build-debug && $(MAKE) -f src/exe/CMakeFiles/test_dataset.dir/build.make src/exe/CMakeFiles/test_dataset.dir/test_dataset.cpp.i
+	cd /home/mu/git/github/myown/xxgBoost/cplus_rgf/cmake-build-debug && $(MAKE) -f src/exe/CMakeFiles/test_dataset.dir/build.make src/exe/CMakeFiles/test_dataset.dir/test_dataset.cpp.i
 .PHONY : test_dataset.cpp.i
 
 test_dataset.s: test_dataset.cpp.s
@@ -195,7 +195,7 @@ test_dataset.s: test_dataset.cpp.s
 
 # target to generate assembly for a file
 test_dataset.cpp.s:
-	cd /home/mi/github/github/myown/xxgBoost/cplus_rgf/cmake-build-debug && $(MAKE) -f src/exe/CMakeFiles/test_dataset.dir/build.make src/exe/CMakeFiles/test_dataset.dir/test_dataset.cpp.s
+	cd /home/mu/git/github/myown/xxgBoost/cplus_rgf/cmake-build-debug && $(MAKE) -f src/exe/CMakeFiles/test_dataset.dir/build.make src/exe/CMakeFiles/test_dataset.dir/test_dataset.cpp.s
 .PHONY : test_dataset.cpp.s
 
 # Help Target
@@ -225,6 +225,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/mi/github/github/myown/xxgBoost/cplus_rgf/cmake-build-debug && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/mu/git/github/myown/xxgBoost/cplus_rgf/cmake-build-debug && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

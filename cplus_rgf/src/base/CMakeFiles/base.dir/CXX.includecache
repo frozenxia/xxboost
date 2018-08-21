@@ -1,4 +1,4 @@
-#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
 
 #IncludeRegexScan: ^.*$
 
@@ -6,15 +6,15 @@
 
 #IncludeRegexTransform: 
 
-/home/mi/github/github/myown/xxgBoost/cplus_rgf/src/base/data.cpp
+/home/mu/git/github/myown/xxgBoost/cplus_rgf/src/base/data.cpp
 data.hpp
-/home/mi/github/github/myown/xxgBoost/cplus_rgf/src/base/data.hpp
+/home/mu/git/github/myown/xxgBoost/cplus_rgf/src/base/data.hpp
 mr.hpp
-/home/mi/github/github/myown/xxgBoost/cplus_rgf/src/base/mr.hpp
+/home/mu/git/github/myown/xxgBoost/cplus_rgf/src/base/mr.hpp
 
-/home/mi/github/github/myown/xxgBoost/cplus_rgf/src/base/utils.cpp
+/home/mu/git/github/myown/xxgBoost/cplus_rgf/src/base/utils.cpp
 utils.hpp
-/home/mi/github/github/myown/xxgBoost/cplus_rgf/src/base/utils.hpp
+/home/mu/git/github/myown/xxgBoost/cplus_rgf/src/base/utils.hpp
 
 include/data.hpp
 utils.hpp

@@ -1,4 +1,4 @@
-# Install script for directory: /home/mi/github/github/myown/xxgBoost/cplus_rgf/src/exe
+# Install script for directory: /home/mu/git/github/myown/xxgBoost/cplus_rgf/src/exe
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -32,31 +32,26 @@ if(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
   set(CMAKE_INSTALL_SO_NO_EXE "1")
 endif()
 
-# Is this installation the result of a crosscompile?
-if(NOT DEFINED CMAKE_CROSSCOMPILING)
-  set(CMAKE_CROSSCOMPILING "FALSE")
-endif()
-
-if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  if(EXISTS "$ENV{DESTDIR}/home/mi/github/github/myown/xxgBoost/cplus_rgf/bin/test_dataset" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}/home/mi/github/github/myown/xxgBoost/cplus_rgf/bin/test_dataset")
+if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
+  if(EXISTS "$ENV{DESTDIR}/home/mu/git/github/myown/xxgBoost/cplus_rgf/bin/test_dataset" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}/home/mu/git/github/myown/xxgBoost/cplus_rgf/bin/test_dataset")
     file(RPATH_CHECK
-         FILE "$ENV{DESTDIR}/home/mi/github/github/myown/xxgBoost/cplus_rgf/bin/test_dataset"
+         FILE "$ENV{DESTDIR}/home/mu/git/github/myown/xxgBoost/cplus_rgf/bin/test_dataset"
          RPATH "")
   endif()
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/mi/github/github/myown/xxgBoost/cplus_rgf/bin/test_dataset")
+   "/home/mu/git/github/myown/xxgBoost/cplus_rgf/bin/test_dataset")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/mi/github/github/myown/xxgBoost/cplus_rgf/bin" TYPE EXECUTABLE FILES "/home/mi/github/github/myown/xxgBoost/cplus_rgf/src/exe/test_dataset")
-  if(EXISTS "$ENV{DESTDIR}/home/mi/github/github/myown/xxgBoost/cplus_rgf/bin/test_dataset" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}/home/mi/github/github/myown/xxgBoost/cplus_rgf/bin/test_dataset")
+file(INSTALL DESTINATION "/home/mu/git/github/myown/xxgBoost/cplus_rgf/bin" TYPE EXECUTABLE FILES "/home/mu/git/github/myown/xxgBoost/cplus_rgf/src/exe/test_dataset")
+  if(EXISTS "$ENV{DESTDIR}/home/mu/git/github/myown/xxgBoost/cplus_rgf/bin/test_dataset" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}/home/mu/git/github/myown/xxgBoost/cplus_rgf/bin/test_dataset")
     if(CMAKE_INSTALL_DO_STRIP)
-      execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}/home/mi/github/github/myown/xxgBoost/cplus_rgf/bin/test_dataset")
+      execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}/home/mu/git/github/myown/xxgBoost/cplus_rgf/bin/test_dataset")
     endif()
   endif()
 endif()
