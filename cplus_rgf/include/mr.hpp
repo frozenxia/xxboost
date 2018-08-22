@@ -131,6 +131,13 @@ class MyDataInputException : public std::exception{
         MyDataInputException(string m,int l):error_message(m),line_no(l){}
 };
 
+/**
+ *
+ * 解析每一行的数据
+ * @tparam d_t
+ * @tparam i_t
+ * @tparam v_t
+ */
 template<typename d_t,typename i_t,typename v_t>
 class MyDataInputLineParseResult{
     public:
