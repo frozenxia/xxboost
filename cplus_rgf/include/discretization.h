@@ -1,9 +1,5 @@
-//
-// Created by mi on 18-8-23.
-//
-
-#ifndef FASTRGF_DISCRETIZATION_H
-#define FASTRGF_DISCRETIZATION_H
+#ifndef _FASTRGF_DISCRETIZATION_H
+#define _FASTRGF_DISCRETIZATION_H
 
 #include "data.h"
 
@@ -18,7 +14,7 @@ namespace rgf {
             ParamValue<double> min_bucket_weights;
             ParamValue<int> max_buckets;
             ParamValue<double> lamL2;
-            TrainParm(string prefix= "disc_dense."{
+            TrainParm(string prefix= "disc_dense."){
                 min_bucket_weights.insert(prefix+"min_bucket_weights",
                         5,
                         "minimum number of effective samples for each discretization value",
@@ -44,7 +40,7 @@ namespace rgf {
         }
 
         void set(UniqueArray<float> &boundaries0){
-
+            
         }
     };
 

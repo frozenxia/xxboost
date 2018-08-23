@@ -3,7 +3,7 @@
 //
 
 #include "data.h"
-
+#include "discretization.h"
 int main(int argc,char*argv[]){
     cout << "hello world" << endl;
     DataSetFlt::IOParam param_trnfile("trn.");
