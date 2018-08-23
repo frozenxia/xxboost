@@ -1,7 +1,7 @@
 #ifndef _RGF_MR_H
 #define _RGF_MR_H
 #include "header.hpp"
-#include "data.hpp"
+#include "data.h"
 class MapReduce{
     public:
         void map(int tid,int j){}
