@@ -113,6 +113,14 @@ public:
 
 };
 
+/**
+ *
+ * load input data, the input format should be label point, as LIBSVM used.
+ *
+ * @tparam d_t
+ * @tparam i_t
+ * @tparam v_t
+ */
 template <typename d_t, typename i_t, typename v_t>
 class DataSet
 {
@@ -167,9 +175,13 @@ public:
   };
 
   Target y_type;
+  // weight for every row
   vector<float> row_weights;
+  // target label
   vector<double> y;
+  //
   vector<d_t *> x_dense;
+  // sparse format data storage
   vector<SparseFeatureGroup<i_t,v_t> *> x_sparse;
 
   

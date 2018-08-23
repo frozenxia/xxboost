@@ -288,7 +288,7 @@ class MyDataInputLineParserMR: public MapReduce{
             y_format = (is_x_format.find('y') != string::npos);
             sparse_format = (is_x_format.find("sparse") != string::npos);
 
-            read_x_only = (!y_valid) && (!w_valid);
+            read_x_only = (!y_format) && (!y_valid);
             use_uniform_weights = (!w_format) && (!w_valid);
 
             is_eof = false;
@@ -328,7 +328,10 @@ class MyDataInputLineParserMR: public MapReduce{
 
             ps[j].y_val = 0;
 
+            // get in y label
             if(y_format) (*is_x_ptr) >> ps[j].y_val;
+
+
             if (is_y_ptr != nullptr){
                 (*is_y_ptr) >> ps[j].y_val;
             }

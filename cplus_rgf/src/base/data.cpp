@@ -56,6 +56,14 @@ int_t DataSet<d_t,i_t,v_t>::read_nextBatch(istream& is_x ,istream &is_y,
             }
             _nrows ++;
 
+            if (!parser.use_uniform_weights){
+                row_weights.push_back(parser.ps[i].w_val);
+            }
+
+            if (!parser.read_x_only){
+                y.push_back(parser.ps[i].y_val);
+            }
+
             int j;
             d_t *x_d = nullptr;
             if (_dim_dense > 0){
@@ -88,6 +96,8 @@ size_t DataSet<d_t,i_t,v_t>::append(DataSet::IOParam &param){
 
     bool w_valid = (param.fn_w.value.size() > 0);
     bool y_valid = (param.fn_y.value.size() > 0);
+
+    cout << "y_valid"  << y_valid << endl;
 
     if( ! is_x.good()){
         cerr << "cannot open feature file <"  << param.fn_x.value << " >" << endl;

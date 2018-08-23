@@ -24,6 +24,8 @@ int main(int argc,char*argv[]){
         cout << trn_orig.dim_sparse() << endl;
         cout << trn_orig.dim_dense() << endl;
         cout << trn_orig.size() << endl;
+        cout  << "yu" << endl;
+        cout << trn_orig.y[0]  << "\t" << trn_orig.y[4]  << endl;
         cout << "end" << endl;
     }
 
