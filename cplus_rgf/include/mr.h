@@ -1,6 +1,6 @@
 #ifndef _RGF_MR_H
 #define _RGF_MR_H
-#include "header.hpp"
+#include "header.h"
 #include "data.h"
 class MapReduce{
     public:

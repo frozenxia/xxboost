@@ -40,7 +40,7 @@ namespace rgf {
         }
 
         void set(UniqueArray<float> &boundaries0){
-            
+
         }
     };
 

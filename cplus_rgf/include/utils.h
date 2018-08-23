@@ -1,7 +1,7 @@
 #ifndef _RGF_UTILS_H
 #define _RGF_UTILS_H
 
-#include "header.hpp"
+#include "header.h"
 
 template<typename T>
 class UniqueArray {

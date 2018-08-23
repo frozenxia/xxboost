@@ -1,4 +1,4 @@
-#include "utils.hpp"
+#include "utils.h"
 
 bool ParameterParser::parse_and_assign(string token) {
     size_t pos = token.find_first_of('=');
