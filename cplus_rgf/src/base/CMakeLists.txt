@@ -1,1 +1,1 @@
-add_library (base utils.cpp data.cpp )
+add_library (base utils.cpp data.cpp discretization.cpp )

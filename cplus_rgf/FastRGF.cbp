@@ -145,6 +145,9 @@
 		<Unit filename="/home/mi/github/github/myown/xxgBoost/cplus_rgf/src/base/data.cpp">
 			<Option target="base"/>
 		</Unit>
+		<Unit filename="/home/mi/github/github/myown/xxgBoost/cplus_rgf/src/base/discretization.cpp">
+			<Option target="base"/>
+		</Unit>
 		<Unit filename="/home/mi/github/github/myown/xxgBoost/cplus_rgf/src/base/utils.cpp">
 			<Option target="base"/>
 		</Unit>

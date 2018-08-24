@@ -4,6 +4,8 @@
 
 #include "data.h"
 #include "discretization.h"
+
+//using namespace _discretizationTrainerDense;
 int main(int argc,char*argv[]){
     cout << "hello world" << endl;
     DataSetFlt::IOParam param_trnfile("trn.");
