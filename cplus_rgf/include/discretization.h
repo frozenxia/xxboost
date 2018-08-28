@@ -74,8 +74,107 @@ namespace rgf {
         void write(ostream &os);
     };
 
+    template<typename feat_t, typename id_t, typename disc_t>
+    class FeatureDiscretizationSparse {
+    public:
+        unordered_map<feat_t, id_t> feat2id;
+        UniqueArray<feat_t> id2feat;
 
-};
+        class TrainParam : public ParameterParser {
+            ParamValue<double> min_bucket_weights;
+
+
+            ParamValue<int> max_buckets;
+
+
+            ParamValue<int> max_features;
+
+
+            ParamValue<int> min_occurrences;
+
+
+            ParamValue <string> missing_type;
+
+
+            ParamValue<float> lamL2;
+
+            TrainParam(string prefix = "disc_sparse.") {
+                min_bucket_weights.insert(prefix + "min_bucket_weights",
+                                          5,
+                                          "minimum number of effective samples for each discretized value",
+                                          this);
+                max_buckets.insert(prefix + "max_buckets",
+                                   200,
+                                   "maximum number of discretized values",
+                                   this);
+                max_features.insert(prefix + "max_features",
+                                    80000,
+                                    "maximum number of selected features",
+                                    this);
+                min_occurrences.insert(prefix + "min_occrrences",
+                                       5,
+                                       "minimum number of occurrences for a feature to be selected",
+                                       this);
+                missing_type.insert(prefix + "missing_type",
+                                    "MIN",
+                                    "sparse missing feature type: current only handle MIN",
+                                    this);
+                lamL2.insert(prefix + "lamL2", 2,
+                             "L2 regularization parameter", this);
+
+            }
+        };
+    };
+
+
+    template<typename src_i_t, typename dest_d_t, typename dest_i_t, typename dest_v_t>
+    class DataDiscretization {
+        vector<int> _offset;
+
+        void offset_init();
+
+
+        enum convert_t {
+            MIX = 0,
+            DENSE = 1,
+            SPARSE = 2
+        } covert_type = convert_t::MIX;
+
+    public:
+        void set_covert(string str) {
+            if (str.compare("MIX") == 0) {
+                covert_type = MIX;
+            } else if (str.compare("DENSE") == 0) {
+                covert_type = DENSE;
+            } else if (str.compare("SPARSE") == 0) {
+                covert_type = SPARSE;
+            } else {
+                cerr << "invalid data discretization type " << str << endl;
+                exit(-1);
+            }
+        }
+
+        UniqueArray<FeatureDiscretizationDense> disc_dense;
+        UniqueArray<FeatureDiscretizationSparse<src_index_t, dest_i_t, dest_v_t> > disc_sparse;
+
+        void train(DataSet<float, src_i_t, float> &ds, FeatureDiscretizationDense::TrainParm &tr_dense,
+                   typename FeatureDiscretizationSparse<src_i_t, dest_i_t, dest_v_t>::TrainParam &tr_sparse,
+                   int nthread, int verbose);
+
+        bool apply(DataSet<float, src_i_t, float> &src, DataPoint<dest_d_t, dest_i_t, dest_v_t> &dest,
+                   bool is_sorted = true);
+
+        bool apply(DataSet<float, src_i_t, float> &src, DataPoint<dest_d_t, dest_i_t, dest_v_t> &dest,
+                   int nthreads = 0);
+
+        void read(istream &is);
+
+        void write(ostream &os);
+
+    };
+
+    using DataDiscretizationInt = DataDiscretization<src_index_t, int, int, int>;
+}
 
 
 #endif //FASTRGF_DISCRITIZATION_H

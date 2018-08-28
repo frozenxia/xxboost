@@ -31,6 +31,10 @@ int main(int argc,char*argv[]){
         cout << "end" << endl;
     }
 
+//    train it
+
+
+
 
 //    DataSetFlt  trn_orig;
 //    trn_orig.append(param_trnfile);
