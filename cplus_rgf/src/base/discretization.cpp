@@ -141,7 +141,7 @@ _discretizationTrainerDense::train(UniqueArray<float> &boundaries, double min_bu
 
 template<typename i_t>
 void FeatureDiscretizationDense::train(DataSet<float, i_t, float> &ds, int j,
-                                       FeatureDiscretizationDense::TrainParm &tr) {
+                                       FeatureDiscretizationDense::TrainParam &tr) {
     using namespace _discretizationTrainerDense;
     UniqueArray<Elem> s;
     s.reset(ds.size());
@@ -187,7 +187,7 @@ void FeatureDiscretizationDense::write(ostream &os) {
 
 template<typename src_i_t, typename dest_d_t, typename dest_i_t, typename dest_v_t>
 void DataDiscretization<src_i_t, dest_d_t, dest_i_t, dest_v_t>::train(DataSet<float, src_i_t, float> &ds,
-                                                                      FeatureDiscretizationDense::TrainParm &tr_dense,
+                                                                      FeatureDiscretizationDense::TrainParam &tr_dense,
                                                                       typename FeatureDiscretizationSparse<src_i_t, dest_i_t, dest_v_t>::TrainParam &tr_sparse,
                                                                       int nthread, int verbose) {
 
@@ -198,7 +198,7 @@ void DataDiscretization<src_i_t, dest_d_t, dest_i_t, dest_v_t>::train(DataSet<fl
     }
 
     if (tr_sparse.max_buckets.value + 1 >= numeric_limits<dest_v_t>::max()) {
-        cerr << "maximum sparse discretization bucket size " << tr_dense.max_buckets.value
+        cerr << "maximum sparse discretization bucket size " << tr_sparse.max_buckets.value
              << "is more than what's allowed" << endl;
         exit(-1);
     }
@@ -212,10 +212,10 @@ void DataDiscretization<src_i_t, dest_d_t, dest_i_t, dest_v_t>::train(DataSet<fl
         public:
             DataSet<float, src_i_t, float> *ds_ptr;
             FeatureDiscretizationDense *disc_dense_ptr;
-            FeatureDiscretizationDense::TrainParm *tr_dense_ptr;
+            FeatureDiscretizationDense::TrainParam *tr_dense_ptr;
 
             void map(int tid, int j) {
-                disc_dense_ptr[i].train(*ds_ptr, j, *tr_dense_ptr);
+                disc_dense_ptr[j].train(*ds_ptr, j, *tr_dense_ptr);
             }
         } mr;
 
@@ -230,4 +230,15 @@ void DataDiscretization<src_i_t, dest_d_t, dest_i_t, dest_v_t>::train(DataSet<fl
     offset_init();
     return;
 
+}
+
+template<typename src_i_t, typename dest_d_t, typename dest_i_t, typename dest_v_t>
+void DataDiscretization<src_i_t, dest_d_t, dest_i_t, dest_v_t>::offset_init() {
+
+}
+
+
+namespace rgf {
+    template
+    class DataDiscretization<src_index_t, int, int, int>;
 }

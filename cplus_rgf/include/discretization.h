@@ -9,13 +9,13 @@ namespace rgf {
     public:
         UniqueArray<float> boundaries;
 
-        class TrainParm : public ParameterParser {
+        class TrainParam : public ParameterParser {
         public:
             ParamValue<double> min_bucket_weights;
             ParamValue<int> max_buckets;
             ParamValue<double> lamL2;
 
-            TrainParm(string prefix = "disc_dense.") {
+            TrainParam(string prefix = "disc_dense.") {
                 min_bucket_weights.insert(prefix + "min_bucket_weights",
                                           5,
                                           "minimum number of effective samples for each discretization value",
@@ -67,7 +67,7 @@ namespace rgf {
         }
 
         template<typename i_t>
-        void train(DataSet<float, i_t, float> &ds, int j, TrainParm &tr);
+        void train(DataSet<float, i_t, float> &ds, int j, TrainParam &tr);
 
         void read(istream &is);
 
@@ -81,6 +81,7 @@ namespace rgf {
         UniqueArray<feat_t> id2feat;
 
         class TrainParam : public ParameterParser {
+        public:
             ParamValue<double> min_bucket_weights;
 
 
@@ -97,6 +98,7 @@ namespace rgf {
 
 
             ParamValue<float> lamL2;
+
 
             TrainParam(string prefix = "disc_sparse.") {
                 min_bucket_weights.insert(prefix + "min_bucket_weights",
@@ -155,24 +157,25 @@ namespace rgf {
         }
 
         UniqueArray<FeatureDiscretizationDense> disc_dense;
-        UniqueArray<FeatureDiscretizationSparse<src_index_t, dest_i_t, dest_v_t> > disc_sparse;
+        UniqueArray<FeatureDiscretizationSparse<src_i_t, dest_i_t, dest_v_t> > disc_sparse;
 
-        void train(DataSet<float, src_i_t, float> &ds, FeatureDiscretizationDense::TrainParm &tr_dense,
+        void train(DataSet<float, src_i_t, float> &ds, FeatureDiscretizationDense::TrainParam &tr_dense,
                    typename FeatureDiscretizationSparse<src_i_t, dest_i_t, dest_v_t>::TrainParam &tr_sparse,
                    int nthread, int verbose);
 
-        bool apply(DataSet<float, src_i_t, float> &src, DataPoint<dest_d_t, dest_i_t, dest_v_t> &dest,
-                   bool is_sorted = true);
-
-        bool apply(DataSet<float, src_i_t, float> &src, DataPoint<dest_d_t, dest_i_t, dest_v_t> &dest,
-                   int nthreads = 0);
-
-        void read(istream &is);
-
-        void write(ostream &os);
+//        bool apply(DataSet<float, src_i_t, float> &src, DataPoint<dest_d_t, dest_i_t, dest_v_t> &dest,
+//                   bool is_sorted = true);
+//
+//        bool apply(DataSet<float, src_i_t, float> &src, DataPoint<dest_d_t, dest_i_t, dest_v_t> &dest,
+//                   int nthreads = 0);
+//
+//        void read(istream &is);
+//
+//        void write(ostream &os);
 
     };
 
+    using FeatureDiscretizationSparseInt=FeatureDiscretizationSparse<src_index_t, int, int>;
     using DataDiscretizationInt = DataDiscretization<src_index_t, int, int, int>;
 }
 
