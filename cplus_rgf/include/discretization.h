@@ -126,6 +126,13 @@ namespace rgf {
 
             }
         };
+
+        FeatureDiscretizationSparse() {}
+
+        size_t size() {
+            return id2feat.size();
+        }
+
     };
 
 

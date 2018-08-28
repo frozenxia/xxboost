@@ -40,7 +40,12 @@ int main(int argc, char *argv[]) {
         int nthreads = 1;
         int verbose = 2;
         disc.train(trn_orig, param_disc_dense, param_disc_sparse, nthreads, verbose);
+//        disc.
+//        cout << disc.disc_dense[0].boundaries.size();
+
+
     }
+
 
 //    train it
 

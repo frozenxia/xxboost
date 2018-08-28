@@ -215,6 +215,7 @@ void DataDiscretization<src_i_t, dest_d_t, dest_i_t, dest_v_t>::train(DataSet<fl
             FeatureDiscretizationDense::TrainParam *tr_dense_ptr;
 
             void map(int tid, int j) {
+//                cout << "j:" << j << endl;
                 disc_dense_ptr[j].train(*ds_ptr, j, *tr_dense_ptr);
             }
         } mr;
@@ -234,6 +235,13 @@ void DataDiscretization<src_i_t, dest_d_t, dest_i_t, dest_v_t>::train(DataSet<fl
 
 template<typename src_i_t, typename dest_d_t, typename dest_i_t, typename dest_v_t>
 void DataDiscretization<src_i_t, dest_d_t, dest_i_t, dest_v_t>::offset_init() {
+    _offset.clear();
+    size_t v = disc_dense.size();
+    _offset.push_back(v);
+    for (int j = 0; j < disc_sparse.size(); j++) {
+        v += disc_sparse[j].size();
+        _offset.push_back(v);
+    }
 
 }
 
