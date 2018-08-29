@@ -245,6 +245,134 @@ void DataDiscretization<src_i_t, dest_d_t, dest_i_t, dest_v_t>::offset_init() {
 
 }
 
+template<typename feat_t, typename id_t, typename disc_t>
+void FeatureDiscretizationSparse<feat_t, id_t, disc_t>::train(DataSet<float, feat_t, float> &ds, int j,
+                                                              TrainParam &tr,
+                                                              int nthreads, int verbose) {
+    bool use_omp = false;
+#ifdef USE_OMP
+    use_omp = true;
+#endif
+    class DataPartition {
+    public:
+        int nthreads;
+        UniqueArray<size_t> data_offset;
+        vector<size_t> data_index[256];
+
+        bool valid() {
+            return (nthreads > 1);
+        }
+
+        unsigned int feat2tid(size_t feat) {
+            unsigned char r;
+            char *s = (char *) &feat;
+            for (int j = 0; j < sizeof(size_t); j++) {
+                r = r * 97 + s[j];
+            }
+            return ((unsigned int) r) % (unsigned int) nthreads;
+        }
+
+        bool loop_init(size_t &i, size_t &k, size_t &pos, size_t tid) {
+            i = 0;
+            k = 0;
+            pos = 0;
+
+            return (pos < data_index[tid].size());
+        }
+
+        bool loop_next(size_t &i, size_t &k, size_t &pos, size_t tid) {
+            if (pos > data_index[tid].size()) return false;
+            size_t nitems = data_index[tid][pos];
+            while (data_offset[i + 1] <= nitems) i++;
+            k = nitems - data_offset[i];
+            pos++;
+            return true;
+        }
+    } th2data;
+
+    th2data.nthreads = (nthreads <= 256) ? nthreads : 0;
+//    if (th2data.valid() && use_omp) th2data.data_offset.reset(ds.size() + 1);
+    if (th2data.valid() && use_omp) {
+        th2data.data_offset.reset(ds.size() + 1);
+    }
+
+    using namespace _discretizationTrainerDense;
+    Timer t;
+    t = Timer("feature_id counting and filtering");
+    t.start();
+
+    size_t max_index = 0;
+
+    if (th2data.valid() && use_omp) {
+        size_t i;
+        size_t nitems = 0;
+        for (i = 0; i < ds.size(); i++) {
+            th2data.data_offset[i] = nitems;
+            nitems += ((ds.x_sparse[i])[j]).size();
+        }
+
+        th2data.data_offset[ds.size()] = nitems;
+        UniqueArray<unsigned char> tid_arr(nitems);
+
+#ifdef  USE_OMP
+        omp_set_num_threads(th2data.nthreads);
+#endif
+#pragma omp parallel for
+        for (i = 0; i < ds.size(); i++) {
+            size_t nitems = th2data.data_offset[i];
+            auto tmp = &((ds.x_sparse[i])[j]);
+            for (size_t k = 0; k < tmp->size(); k++) {
+                size_t feat = (*tmp)[k].index;
+                if (max_index < feat) max_index = feat;
+                tid_arr[nitems++] = th2data.feat2tid(feat);
+            }
+        }
+
+        for (i = 0; i < tid_arr.size(); i++) {
+            th2data.data_index[tid_arr[i]].push_back(i);
+        }
+    } else {
+        for (size_t i = 0; i < ds.size(); i++) {
+//            size_t nitems = th2data.data_offset[i];
+            auto tmp = &((ds.x_sparse[i])[j]);
+            for (size_t k = 0; k < tmp->size(); k++) {
+                size_t feat = (*tmp)[k].index;
+                if (max_index < feat) max_index = feat;
+            }
+        }
+    }
+
+    size_t id = 0;
+    vector<size_t> id_counts;
+    vector<feat_t> id2feat_vec;
+
+    double min_counts = std::max(1, tr.min_occurrences.value);
+
+    UniqueArray<int32_t> feat2id_count_arr;
+
+    bool use_arr = (max_index < (numeric_limits<int32_t>::max() / 2 - 1));
+    if (!use_arr) {
+        unordered_map<feat_t, size_t> feat2id_count_hash;
+        for (size_t i = 0; i < ds.size(); i++) {
+            auto tmp = &((ds.x_sparse[i])[j]);
+            for (size_t k = 0; k < tmp->size(); k++) {
+                ++feat2id_count_hash[(*tmp)[k].index];
+            }
+        }
+
+        for (auto it = feat2id_count_hash.begin(); it != feat2id_count_hash.end(); it++) {
+            if (it->second >= min_counts) {
+                id_counts.push_back(it->second);
+                id2feat_vec.push_back(it->first);
+                feat2id[it->first] = id++;
+            }
+        }
+    } else {
+        feat2id_count_arr.resize(max_index + 1);
+    }
+//    omp_set_num_threads(th2data.nthreads);
+}
+
 
 namespace rgf {
     template

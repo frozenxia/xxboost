@@ -19,14 +19,18 @@
 #include <cmath>
 #include <cstring>
 
+//#define USE_OMP
+
 #ifdef USE_OMP
+
 #include "omp.h"
+
 #endif
 
 
-namespace rgf{
-    #define VER  "copy from zhangtong "
-    const int max_thrds= 128;
+namespace rgf {
+#define VER  "copy from zhangtong "
+    const int max_thrds = 128;
     const int vect_width = 8;
     using int_t  = long;
     using src_index_t = int;
