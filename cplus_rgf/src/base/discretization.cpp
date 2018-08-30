@@ -369,6 +369,32 @@ void FeatureDiscretizationSparse<feat_t, id_t, disc_t>::train(DataSet<float, fea
         }
     } else {
         feat2id_count_arr.resize(max_index + 1);
+        memset(feat2id_count_arr.get(), 0, sizeof(int32_t) * feat2id_count_arr.size());
+        if (th2data.valid() && use_omp) {
+#ifdef  USE_OMP
+            auto mapper = [j, &th2data, &feat2id_count_arr, &ds](int tid) {
+                size_t pi, i, k, pos;
+                if (th2data.loop_init(i, k, pos, tid)) {
+                    pi = i;
+                    auto tmp = &((ds.x_sparse[i])[j]);
+                    while (th2data.loop_next(i, k, pos, tid)) {
+                        if (pi != i) {
+                            tmp = &((ds.x_sparse[i])[j]);
+                        }
+                        ++feat2id_count_arr[(*tmp)[k].index];
+                        pi = i;
+                    }
+                }
+            };
+            omp_set_num_threads(th2data.nthreads);
+#pragma omp parallel for
+            for (int tid = 0; tid < th2data.nthreads; tid++) {
+                mapper(tid);
+            }
+#endif
+        } else {
+
+        }
     }
 //    omp_set_num_threads(th2data.nthreads);
 }
