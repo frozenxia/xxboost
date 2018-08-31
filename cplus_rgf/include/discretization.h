@@ -1,6 +1,8 @@
 #ifndef _FASTRGF_DISCRETIZATION_H
 #define _FASTRGF_DISCRETIZATION_H
 
+typedef const float d;
+
 #include "data.h"
 
 namespace rgf {

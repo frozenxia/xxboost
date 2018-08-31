@@ -393,9 +393,161 @@ void FeatureDiscretizationSparse<feat_t, id_t, disc_t>::train(DataSet<float, fea
             }
 #endif
         } else {
+            for (size_t i = 0; i < ds.size(); i++) {
+                auto tmp = &((ds.x_sparse[i])[j]);
+                for (size_t k = 0; k < tmp->size(); k++) {
+                    ++feat2id_count_arr[(*tmp)[k].index];
+                }
+            }
+        }
 
+        for (int ft = 0; ft < feat2id_count_arr.size(); ft++) {
+            if (feat2id_count_arr[ft] >= min_counts) {
+                id_counts.push_back(feat2id_count_arr[ft]);
+                id2feat_vec.push_back(ft);
+                feat2id_count_arr[ft] = id;
+            } else {
+                feat2id_count_arr[ft] = numeric_limits<int32_t>::max();
+            }
         }
     }
+    t.stop();
+    t.print();
+
+    t = Timer("sparse feature_id to dense");
+    t.start();
+
+    id2feat.resize(id_counts.size());
+
+    class MyID_struct {
+    public:
+        double w = 0;
+        double y = 0;
+        size_t count = 0;
+        Elem *s_arr_ptr = 0;
+        size_t s_arr_size = 0;
+    };
+
+    size_t tot_counts = 0;
+    for (id = 0; id < id_counts.size(); id++) {
+        tot_counts += (id_counts[id] + 1);
+    }
+
+    UniqueArray<Elem> s_arr;
+    s_arr.resize(tot_counts);
+
+
+    UniqueArray<MyID_struct> id_arr;
+    id_arr.resize(id_counts.size());
+    tot_counts = 0;
+
+    for (id = 0; id < id_counts.size(); id++) {
+        int sz = (id_counts[id] + 1);
+        id_arr[id].s_arr_ptr = s_arr.get() + tot_counts;
+        id_arr[id].s_arr_size = sz;
+        tot_counts += sz;
+    }
+
+    size_t n = ds.size();
+
+    double tot_w = 0;
+    double tot_y = 0;
+
+    if (th2data.valid() && use_arr && use_omp) {
+#ifdef  USE_OMP
+        for (size_t i = 0; i < n; i++) {
+            auto tmp = &((ds.x_sparse[i])[j]);
+            float ww = (ds.row_weights.size() == n) ? ds.row_weights[i] : 1.0;
+            double yy = ds.y[i] * ww;
+            tot_y += yy;
+            tot_w += ww;
+        }
+
+        auto mapper = [j, &th2data, &feat2id_count_arr, &id_arr, &ds](int tid) {
+            size_t pi, i, k, pos;
+            if (th2data.loop_init(i, k, pos, tid)) {
+                pi = i;
+                auto tmp = &((ds.x_sparse[i])[j]);
+                float ww = (ds.row_weights.size() == ds.size()) ? ds.row_weights[i] : 1.0;
+                double yy = ds.y[i] * ww;
+                while (th2data.loop_next(i, k, pos, tid)) {
+                    if (pi != i) {
+                        tmp = &((ds.x_sparse[i])[j]);
+                        ww = (ds.row_weights.size() == ds.size()) ? ds.row_weights[i] : 1.0;
+                        yy = ds.y[i] * ww;
+                    }
+
+                    size_t id = feat2id_count_arr[(*tmp)[k].index];
+                    if (!(id == numeric_limits<int32_t>::max())) {
+                        id_arr[id].w += ww;
+                        id_arr[id].y += yy;
+                        int cnt = ++id_arr[id].count;
+                        id_arr[id].s_arr_ptr[cnt] = Elem((*tmp)[k].value, yy, ww);
+                    }
+                    pi = i;
+                }
+            }
+        };
+
+        omp_set_num_threads(th2data.nthreads);
+
+#pragma  omp parallel for
+        for (int tid = 0; tid < th2data.nthreads; tid++) {
+            mapper(tid);
+        }
+#endif
+    } else {
+        for (size_t i = 0; i < n; i++) {
+            auto tmp = &((ds.x_sparse[i])[j]);
+            float ww = (ds.row_weights.size() == n) ? ds.row_weights[i] : 1.0;
+            double yy = ds.y[i] * ww;
+            tot_y += yy;
+            tot_w += ww;
+
+            for (size_t k = 0; k < tmp->size(); k++) {
+                if (use_arr) {
+                    id = feat2id_count_arr[(*tmp)[k].index];
+                    if (id == numeric_limits<int32_t>::max()) continue;
+                } else {
+                    auto it = feat2id.find((*tmp)[k].index);
+                    if (it == feat2id.end()) continue;
+                    id = it->second;
+                }
+                id_arr[id].w += ww;
+                id_arr[id].y += yy;
+                int cnt = ++id_arr[id].count;
+                id_arr[id].s_arr_ptr[cnt] = Elem((*tmp)[k].value, yy, ww);
+            }
+        }
+    }
+
+    for (id = 0; id < id_counts.size(); id++) {
+        assert(id_arr[id].count == id_arr[id].s_arr_size - 1);
+        float xx = numeric_limits<float>::lowest();
+        if (tot_w > id_arr[id].w + 1e-5) {
+            id_arr[id].s_arr_ptr[0] = Elem(xx, (tot_y - id_arr[id].y) / (tot_w - id_arr[id].w), (tot_w - id_arr[id].w));
+        } else {
+            id_arr[id].s_arr_ptr[0] = Elem(xx, 0.0, 0.0);
+        }
+    }
+    t.stop();
+    t.print();
+
+    struct GainElement {
+        float value;
+        int index;
+
+        const bool operator<(const GainElement &b) const {
+            return (value > b.value);
+        }
+    };
+    t = Timer("computing gain");
+    t.start();
+
+    vector<GainElement> gain;
+
+
+
 //    omp_set_num_threads(th2data.nthreads);
 }
 
