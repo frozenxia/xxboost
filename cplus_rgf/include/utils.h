@@ -25,6 +25,40 @@ namespace rgf {
 
     };
 
+    class Timer {
+        clock_t b_cpu;
+        clock_t e_cpu;
+
+        chrono::system_clock::time_point b_wall;
+        chrono::system_clock::time_point e_wall;
+
+    public:
+        string description;
+        double duration_cpu;
+        double duration_wall;
+
+        Timer(string desc = "") : b_cpu(0), e_cpu(0), description(desc), duration_cpu(0), duration_wall(0) {}
+
+        void start() {
+            b_cpu = clock();
+            b_wall = chrono::system_clock::now();
+        }
+
+        void stop() {
+            e_cpu = clock();
+            e_wall = chrono::system_clock::now();
+            duration_cpu += ((double) (e_cpu - b_cpu)) / CLOCKS_PER_SEC;
+            duration_wall += chrono::duration<double, ratio<1, 1> >(e_wall - b_wall).count();
+            b_wall = e_wall;
+            b_cpu = e_cpu;
+        }
+
+        void print(ostream &os = cerr) {
+            os << description << ": " << "wall time=" << duration_wall << " seconds; "
+               << "cpu time=" << duration_cpu << " seconds." << endl;
+        }
+
+    };
 
     template<typename T>
     class UniqueArray {

@@ -1,6 +1,8 @@
 #ifndef _FASTRGF_DISCRETIZATION_H
 #define _FASTRGF_DISCRETIZATION_H
 
+typedef const float d;
+
 #include "data.h"
 
 namespace rgf {
@@ -80,6 +82,8 @@ namespace rgf {
         unordered_map<feat_t, id_t> feat2id;
         UniqueArray<feat_t> id2feat;
 
+        UniqueArray<FeatureDiscretizationDense> boundary_arr;
+
         class TrainParam : public ParameterParser {
         public:
             ParamValue<double> min_bucket_weights;
@@ -126,6 +130,32 @@ namespace rgf {
 
             }
         };
+
+        FeatureDiscretizationSparse() {}
+
+        size_t size() {
+            return id2feat.size();
+        }
+
+        FeatureDiscretizationDense *operator[](const int id) {
+            if (id >= 0 && id < boundary_arr.size()) {
+                return &boundary_arr[id];
+            }
+            return nullptr;
+        }
+
+        void clear() {
+            assert(feat2id.size() == size() && id2feat.size() == size() && boundary_arr.size() == size());
+            feat2id.clear();
+            id2feat.clear();
+            boundary_arr.clear();
+        }
+
+        void train(DataSet<float, feat_t, float> &ds, int j, TrainParam &tr, int nthreads, int verbose);
+
+        void write(ostream &os);
+
+        void read(istream &is);
     };
 
 
