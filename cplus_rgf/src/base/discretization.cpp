@@ -545,8 +545,9 @@ void FeatureDiscretizationSparse<feat_t, id_t, disc_t>::train(DataSet<float, fea
     t.start();
 
     vector<GainElement> gain;
+    gain.resize(id_counts.size());
 
-
+    UniqueArray<UniqueArray<float> > my_boundaries(id_counts.size());
 
 //    omp_set_num_threads(th2data.nthreads);
 }
